@@ -49,9 +49,8 @@ void populateList(int n, Node **head_p) {
 
     srand((unsigned) time(&t));
 
-    for (int i = 0; i < n; result > 0 ? ++i : i) {
+    for (int i = 0; i < n; (result > 0) ? ++i : i)
         result = Insert(rand() % VALUE_LIMIT, head_p);
-    }
 }
 
 //void runInsertOperation()

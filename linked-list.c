@@ -10,14 +10,13 @@ int Insert(int value, Node **head_pp) {
     Node *prev_p = NULL;
     Node *temp_p;
 
+    // Iterate to the end of the list or until an equivalent value is found in the list
     while (current_p != NULL && current_p->value != value) {
         prev_p = current_p;
         current_p = current_p->next;
     }
 
-    if(current_p != NULL && current_p->value == value)
-        return -1;
-
+    // Insert the new value at the end of the list
     if (current_p == NULL) {
         temp_p = malloc(sizeof(Node));
         temp_p->value = value;
@@ -31,7 +30,7 @@ int Insert(int value, Node **head_pp) {
         return 1;
     }
     else
-        return 0;
+        return 0; // If the value to be inserted is already in the list, do not insert it
 }
 
 int Delete(int value, Node **head_pp) {
