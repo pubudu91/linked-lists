@@ -1,6 +1,3 @@
-//
-// Created by pubudu on 7/17/16.
-//
 #include <stdlib.h>
 #include <stdio.h>
 #include "node.h"
@@ -37,7 +34,7 @@ int Delete(int value, Node **head_pp) {
     Node *current_p = *head_pp;
     Node *prev_p = NULL;
 
-    while (current_p != NULL && current_p->value < value) {
+    while (current_p != NULL && current_p->value != value) {
         prev_p = current_p;
         current_p = current_p->next;
     }
@@ -61,7 +58,7 @@ int Delete(int value, Node **head_pp) {
 int Member(int value, Node* head_p) {
     Node* current_p = head_p;
 
-    while(current_p != NULL && current_p->value < value)
+    while(current_p != NULL && current_p->value != value)
         current_p = current_p->next;
 
     if(current_p != NULL && current_p->value == value)
