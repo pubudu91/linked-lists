@@ -55,8 +55,8 @@ int Delete(int value, Node **head_pp) {
         return 0;
 }
 
-int Member(int value, Node* head_p) {
-    Node* current_p = head_p;
+int Member(int value, Node **head_p) {
+    Node* current_p = *head_p;
 
     while(current_p != NULL && current_p->value != value)
         current_p = current_p->next;

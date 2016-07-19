@@ -1,5 +1,6 @@
 #include <time.h>
 #include <stdlib.h>
+#include "node.h"
 #include "ops.h"
 
 // Convert the percentages of each operation into a concrete number
@@ -19,22 +20,22 @@ void buildOpsList(Byte *opsList, Ops *ops, int m) {
 
     srand((unsigned) time(&t));
 
-    for (int i = 0; i < m; ) {
+    for (int i = 0; i < m;) {
         rnd = (rand() % 3) + 1;
         switch (rnd) {
-            case 1:
+            case INSERT_OP:
                 if (ops->n_insert > 0) {
                     opsList[i++] = INSERT_OP;
                     ops->n_insert--;
                 }
                 break;
-            case 2:
+            case DELETE_OP:
                 if (ops->n_delete > 0) {
                     opsList[i++] = DELETE_OP;
                     ops->n_delete--;
                 }
                 break;
-            case 3:
+            case MEMBER_OP:
                 if (ops->n_member > 0) {
                     opsList[i++] = MEMBER_OP;
                     ops->n_member--;
@@ -42,4 +43,14 @@ void buildOpsList(Byte *opsList, Ops *ops, int m) {
                 break;
         }
     }
+}
+
+void populateLinkedList(int n, Node **head_pp) {
+    time_t t;
+    int result;
+
+    srand((unsigned) time(&t));
+
+    for (int i = 0; i < n; (result > 0) ? ++i : i)
+        result = Insert(rand() % VALUE_LIMIT, head_pp);
 }

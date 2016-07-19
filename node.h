@@ -5,7 +5,7 @@ typedef struct node {
     struct node* next;
 }Node;
 
-int Member(int value, Node* list_head);
+int Member(int value, Node **list_head);
 int Insert(int value, Node** head_pp);
 int Delete(int value, Node** head_pp);
 void print_list(Node *head);
