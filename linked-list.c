@@ -8,16 +8,16 @@ int Insert(int value, Node **head_pp) {
     Node *temp_p;
 
     // Iterate to the end of the list or until an equivalent value is found in the list
-    while (current_p != NULL && current_p->value != value) {
+    while (current_p != NULL && current_p->value < value) {
         prev_p = current_p;
         current_p = current_p->next;
     }
 
     // Insert the new value at the end of the list
-    if (current_p == NULL) {
+    if (current_p == NULL || current_p->value > value) {
         temp_p = malloc(sizeof(Node));
         temp_p->value = value;
-        temp_p->next = NULL;
+        temp_p->next = current_p;
 
         if (prev_p == NULL)
             *head_pp = temp_p;
@@ -34,7 +34,7 @@ int Delete(int value, Node **head_pp) {
     Node *current_p = *head_pp;
     Node *prev_p = NULL;
 
-    while (current_p != NULL && current_p->value != value) {
+    while (current_p != NULL && current_p->value < value) {
         prev_p = current_p;
         current_p = current_p->next;
     }
@@ -58,13 +58,13 @@ int Delete(int value, Node **head_pp) {
 int Member(int value, Node **head_p) {
     Node* current_p = *head_p;
 
-    while(current_p != NULL && current_p->value != value)
+    while(current_p != NULL && current_p->value < value)
         current_p = current_p->next;
 
-    if(current_p != NULL && current_p->value == value)
-        return 1;
-    else
+    if(current_p == NULL || current_p->value > value)
         return 0;
+    else
+        return 1;
 }
 
 void print_list(Node *head) {

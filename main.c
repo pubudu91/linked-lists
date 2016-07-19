@@ -8,8 +8,8 @@
 int linkedListMutex(Byte *opsList_, Ops *ops_, int n_, int m_);
 
 int main() {
-    Node *head = NULL;
-    int n = 1000;
+//    Node *head = NULL;
+//    int n = 1000;
 //    Insert(10, &head);
 //    Insert(30, &head);
 //    Insert(50, &head);
