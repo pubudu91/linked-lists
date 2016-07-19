@@ -46,11 +46,24 @@ void buildOpsList(Byte *opsList, Ops *ops, int m) {
 }
 
 void populateLinkedList(int n, Node **head_pp) {
-    time_t t;
     int result;
 
-    srand((unsigned) time(&t));
+    setSeed();
 
+    // Insert n unique random integers in the range 0 - 65535 to the list
     for (int i = 0; i < n; (result > 0) ? ++i : i)
         result = Insert(rand() % VALUE_LIMIT, head_pp);
+}
+
+void deleteLinkedList(Node *head) {
+    Node *current;
+    while ((current = head) != NULL) {
+        head = head->next;
+        free(current);
+    }
+}
+
+void setSeed() {
+    time_t t;
+    srand((unsigned) time(&t));
 }

@@ -18,4 +18,6 @@ typedef unsigned char Byte;
 void ops_init(Ops *ops, int m, double p_ins, double p_del, double p_mem);
 void buildOpsList(Byte *opsList, Ops *ops, int m);
 void populateLinkedList(int n, Node **head_pp);
+void deleteLinkedList(Node *head);
+void setSeed();
 #endif //LINKED_LISTS_OPERATIONS_H

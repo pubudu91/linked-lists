@@ -1,6 +1,41 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "node.h"
+#include "ops.h"
+
+Node *head;
+Byte *opsList;
+int m;
+
+void serialLinkedList(Byte *opsList_, int m_, int n_) {
+    m = m_;
+    opsList = opsList_;
+
+    head = NULL;
+    populateLinkedList(n_, &head);
+
+    print_list(head);
+
+    int val;
+    for (int i = 0; i < m; ++i) {
+        switch (opsList_[i]) {
+            case INSERT_OP:
+                val = rand() % VALUE_LIMIT;
+                Insert(val, &head);
+                break;
+            case DELETE_OP:
+                val = rand() % VALUE_LIMIT;
+                Delete(val, &head);
+                break;
+            case MEMBER_OP:
+                val = rand() % VALUE_LIMIT;
+                Member(val, &head);
+                break;
+        }
+    }
+
+    print_list(head);
+}
 
 int Insert(int value, Node **head_pp) {
     Node *current_p = *head_pp;
@@ -56,12 +91,12 @@ int Delete(int value, Node **head_pp) {
 }
 
 int Member(int value, Node **head_p) {
-    Node* current_p = *head_p;
+    Node *current_p = *head_p;
 
-    while(current_p != NULL && current_p->value < value)
+    while (current_p != NULL && current_p->value < value)
         current_p = current_p->next;
 
-    if(current_p == NULL || current_p->value > value)
+    if (current_p == NULL || current_p->value > value)
         return 0;
     else
         return 1;

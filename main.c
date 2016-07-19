@@ -5,7 +5,9 @@
 #include "node.h"
 #include "ops.h"
 
-int linkedListMutex(Byte *opsList_, Ops *ops_, int n_, int m_);
+int linkedListMutex(Byte *opsList_, int n_threads_, int m_, int n_num_);
+
+void serialLinkedList(Byte *opsList_, int m_, int n_);
 
 int main() {
 //    Node *head = NULL;
@@ -18,6 +20,10 @@ int main() {
 //
 //    print_list(head);
 //    printf("\n");
+//
+//    deleteLinkedList(head);
+//
+//    print_list(head);
 //
 //    Delete(25, &head);
 //    printf("%d\n", Delete(10, &head));
@@ -53,6 +59,7 @@ int main() {
 //        int value;
 //    } Args;
     int m = 10;
+    int n = 20;
     int n_threads = 1;
     Ops ops;
     ops_init(&ops, m, 0.8, 0.1, 0.1); // Workout the number of operations of each type
@@ -63,8 +70,8 @@ int main() {
 //    for (int i = 0; i < m; ++i) {
 //        printf("%d\n", opsList[i]);
 //    }
-    linkedListMutex(opsList, &ops, 1, m);
-
+//    linkedListMutex(opsList, n_threads, m, 20);
+    serialLinkedList(opsList, m, n);
     return 0;
 }
 

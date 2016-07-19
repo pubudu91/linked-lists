@@ -7,29 +7,22 @@
 int thread_count;                    //thread count
 pthread_mutex_t mutex;
 Node *head;
-
-//void *threadOperation(void *rank);   //thread function
-void *threadOperation(void *);
-
 Byte *opsList;
-Ops *ops;
-int n;
 int m;
 
+void *threadOperation(void *);   //thread function
 
-int linkedListMutex(Byte *opsList_, Ops *ops_, int n_, int m_) {
+int linkedListMutex(Byte *opsList_, int n_threads_, int m_, int n_num_) {
     pthread_t *thread_handles;
 
     opsList = opsList_;
-    ops = ops_;
-    n = n_;
     m = m_;
+    thread_count = n_threads_;
 
-    thread_count = n;
     thread_handles = malloc(thread_count * sizeof(pthread_t));
 
     head = NULL;
-    populateLinkedList(20, &head);
+    populateLinkedList(n_num_, &head);
 
     int ret1, i;
     for (i = 0; i < thread_count; i++) {
@@ -52,7 +45,7 @@ int linkedListMutex(Byte *opsList_, Ops *ops_, int n_, int m_) {
 }
 
 void *threadOperation(void *threadNum) {
-    int blockSize = m / n;
+    int blockSize = m / thread_count;
     int i = (int) threadNum;
     printf("Inside thread #%d\n", i);
 
@@ -78,82 +71,3 @@ void *threadOperation(void *threadNum) {
     }
     return NULL;
 }
-//int Insert(int value, Node_List **head_pp) {
-//    Node_List *current_p = *head_pp;
-//    Node_List *prev_p = NULL;
-//    Node_List *temp_p;
-//
-//    // Iterate to the end of the list or until an equivalent value is found in the list
-//    while (current_p != NULL && current_p->value != value) {
-//        prev_p = current_p;
-//        current_p = current_p->next;
-//    }
-//
-//    // Insert the new value at the end of the list
-//    if (current_p == NULL) {
-//        temp_p = malloc(sizeof(Node));
-//        temp_p->value = value;
-//        temp_p->next = NULL;
-//
-//        if (prev_p == NULL)
-//            *head_pp = temp_p;
-//        else
-//            prev_p->next = temp_p;
-//
-//        return 1;
-//    }
-//    else
-//        return 0; // If the value to be inserted is already in the list, do not insert it
-//}
-//
-//int Delete(int value, Node_List **head_pp) {
-//    Node_List *current_p = *head_pp;
-//    Node_List *prev_p = NULL;
-//
-//    while (current_p != NULL && current_p->value < value) {
-//        prev_p = current_p;
-//        current_p = current_p->next;
-//    }
-//
-//    if (current_p != NULL && current_p->value == value) {
-//        if (prev_p == NULL) {
-//            *head_pp = current_p->next;
-//            free(current_p);
-//        }
-//        else {
-//            prev_p->next = current_p->next;
-//            free(current_p);
-//        }
-//
-//        return 1;
-//    }
-//    else
-//        return 0;
-//}
-//
-//int Member(int value, Node* head_p) {
-//    Node_List* current_p = head_p;
-//
-//    while(current_p != NULL && current_p->value < value)
-//        current_p = current_p->next;
-//
-//    if(current_p != NULL && current_p->value == value)
-//        return 1;
-//    else
-//        return 0;
-//}
-//
-//void print_list(Node *head) {
-//    Node_List *current = head;
-//    int count = 0;
-//
-//    while (current != NULL) {
-//        printf("%d: %d\n", ++count, current->value);
-//        current = current->next;
-//    }
-//}
-//
-//
-//void mutexInsert (int value, Node_List **head_pp ) {
-//
-//}
