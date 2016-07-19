@@ -9,6 +9,8 @@ int linkedListMutex(Byte *opsList_, int n_threads_, int m_, int n_num_);
 
 void serialLinkedList(Byte *opsList_, int m_, int n_);
 
+int linkedListRWLock(Byte *opsList_, int n_threads_, int m_, int n_num_);
+
 int main() {
 //    Node *head = NULL;
 //    int n = 1000;
@@ -58,9 +60,11 @@ int main() {
 //        Node **head_pp;
 //        int value;
 //    } Args;
+    time_t t;
+    srand((unsigned)time(&t));
     int m = 10;
     int n = 20;
-    int n_threads = 1;
+    int n_threads = 2;
     Ops ops;
     ops_init(&ops, m, 0.8, 0.1, 0.1); // Workout the number of operations of each type
     Byte *opsList = malloc(sizeof(Byte) * m);
@@ -70,37 +74,8 @@ int main() {
 //    for (int i = 0; i < m; ++i) {
 //        printf("%d\n", opsList[i]);
 //    }
-//    linkedListMutex(opsList, n_threads, m, 20);
+    linkedListMutex(opsList, n_threads, m, n);
     serialLinkedList(opsList, m, n);
+    linkedListRWLock(opsList, n_threads, m, n);
     return 0;
-}
-
-void runThreads(Node **head_pp, int n_threads, int n_ops, Byte *opsList, int m) {
-    int n_ops_remaining = n_ops;
-    int blockSize = m / n_threads; // Calculate the number of operations to give per thread
-    pthread_t *threads = malloc(sizeof(pthread_t) * n_threads);
-
-    for (int i = 0; i < n_threads; ++i) {
-//        threads[i] = pthread_create(&threads[i], NULL, &runInsertOps )
-
-    }
-}
-
-//void runOperations(Node **head_pp, Byte *opsList, int n_threads, int m, int i, int blockSize) {
-//    for (int j = i; j < i + blockSize || (j == n_threads - 1 && j < m); ++j) {
-//        switch (opsList[j]) {
-//            case 1:
-//                Insert(rand() % VALUE_LIMIT, &head_pp);
-//                break;
-//            case 2:
-//                Delete(rand() % VALUE_LIMIT, &head_pp);
-//                break;
-//            case 3:
-//                Member(rand() % VALUE_LIMIT, &head_pp);
-//                break;
-//        }
-//    }
-//}
-
-void runInsertOps(Node **head_pp, int n_ops) {
 }

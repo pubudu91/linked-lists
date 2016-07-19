@@ -5,14 +5,14 @@
 #include "ops.h"
 
 int thread_count;                    //thread count
-pthread_mutex_t mutex;
+pthread_rwlock_t rwlock = PTHREAD_RWLOCK_INITIALIZER; // Initialize a rwlock with default attributes
 Node *head;
 Byte *opsList;
 int m;
 
-void *threadOperation(void *);   //thread function
+void *threadOperationRWLock(void *);   //thread function
 
-int linkedListMutex(Byte *opsList_, int n_threads_, int m_, int n_num_) {
+int linkedListRWLock(Byte *opsList_, int n_threads_, int m_, int n_num_) {
     pthread_t *thread_handles;
 
     opsList = opsList_;
@@ -26,25 +26,25 @@ int linkedListMutex(Byte *opsList_, int n_threads_, int m_, int n_num_) {
 
     int ret1, i;
     for (i = 0; i < thread_count; i++) {
-        ret1 = pthread_create(&thread_handles[i], NULL, threadOperation, (void *) i);
+        ret1 = pthread_create(&thread_handles[i], NULL, threadOperationRWLock, (void *) i);
+
         if (ret1) {
             fprintf(stderr, "Error - pthread_create() return code: %d\n", ret1);
             exit(EXIT_FAILURE);
         }
-
     }
 
-    for (i = 0; i < thread_count; i++) {
+    for (i = 0; i < thread_count; i++)
         pthread_join(thread_handles[i], NULL);
-    }
 
     free(thread_handles);
     print_list(head);
+    deleteLinkedList(head);
     return 0;
 
 }
 
-void *threadOperation(void *threadNum) {
+void *threadOperationRWLock(void *threadNum) {
     int blockSize = m / thread_count;
     int i = (int) threadNum;
     printf("Inside thread #%d\n", i);
@@ -53,19 +53,19 @@ void *threadOperation(void *threadNum) {
     for (j = i * blockSize; j < i * blockSize + blockSize || (j == m - 1 && j < m); ++j) {
         switch (opsList[j]) {
             case INSERT_OP:
-                pthread_mutex_lock(&mutex);
+                pthread_rwlock_wrlock(&rwlock);
                 Insert(rand() % VALUE_LIMIT, &head);
-                pthread_mutex_unlock(&mutex);
+                pthread_rwlock_unlock(&rwlock);
                 break;
             case DELETE_OP:
-                pthread_mutex_lock(&mutex);
+                pthread_rwlock_wrlock(&rwlock);
                 Delete(rand() % VALUE_LIMIT, &head);
-                pthread_mutex_unlock(&mutex);
+                pthread_rwlock_unlock(&rwlock);
                 break;
             case MEMBER_OP:
-                pthread_mutex_lock(&mutex);
+                pthread_rwlock_rdlock(&rwlock);
                 Member(rand() % VALUE_LIMIT, &head);
-                pthread_mutex_unlock(&mutex);
+                pthread_rwlock_unlock(&rwlock);
                 break;
         }
     }

@@ -14,8 +14,6 @@ void serialLinkedList(Byte *opsList_, int m_, int n_) {
     head = NULL;
     populateLinkedList(n_, &head);
 
-    print_list(head);
-
     int val;
     for (int i = 0; i < m; ++i) {
         switch (opsList_[i]) {
@@ -35,6 +33,7 @@ void serialLinkedList(Byte *opsList_, int m_, int n_) {
     }
 
     print_list(head);
+    deleteLinkedList(head);
 }
 
 int Insert(int value, Node **head_pp) {

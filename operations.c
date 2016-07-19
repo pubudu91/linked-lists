@@ -1,4 +1,3 @@
-#include <time.h>
 #include <stdlib.h>
 #include "node.h"
 #include "ops.h"
@@ -15,10 +14,9 @@ void ops_init(Ops *ops, int m, double p_ins, double p_del, double p_mem) {
 }
 
 void buildOpsList(Byte *opsList, Ops *ops, int m) {
-    time_t t;
     int rnd;
 
-    srand((unsigned) time(&t));
+    setSeed();
 
     for (int i = 0; i < m;) {
         rnd = (rand() % 3) + 1;
@@ -64,6 +62,5 @@ void deleteLinkedList(Node *head) {
 }
 
 void setSeed() {
-    time_t t;
-    srand((unsigned) time(&t));
+    srand(((rand()) % VALUE_LIMIT) * 39163);
 }
