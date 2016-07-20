@@ -22,70 +22,24 @@ void runDummyThreads(int thread_count);
 
 void *dummyOp();
 
-int main() {
-//    Node *head = NULL;
-//    int n = 1000;
-//    Insert(10, &head);
-//    Insert(30, &head);
-//    Insert(50, &head);
-//    Insert(60, &head);
-//    Insert(20, &head);
-//
-//    print_list(head);
-//    printf("\n");
-//
-//    deleteLinkedList(head);
-//
-//    print_list(head);
-//
-//    Delete(25, &head);
-//    printf("%d\n", Delete(10, &head));
-//
-//    print_list(head);
-//    printf("\n");
-//
-//    Delete(30, &head);
-//    Delete(50, &head);
-//
-//    print_list(head);
-//    printf("\n");
-//
-//    Insert(120, &head);
-//    Insert(120, &head);
-//    Insert(120, &head);
-//    Insert(130, &head);
-//    Insert(140, &head);
-//    Insert(150, &head);
-//
-//    print_list(head);
-//    printf("\n");
-//
-//    printf("%d\n", Member(30, &head));
-//    printf("%d\n", Member(40, &head));
-//    printf("%d\n", Member(50, &head));
-//    printf("%d\n", Member(60, &head));
-//    printf("%d\n", Member(160, &head));
-//    populateLinkedList(20, &head); // Populate the linked list with random numbers
-//    print_list(head);
-//    typedef struct args {
-//        Node **head_pp;
-//        int value;
-//    } Args;
+int main(int argc, char *args[]) {
+    if(argc != 5) {
+        printf("Insufficient arguments. Need 4 arguments. %d\n", argc);
+        exit(1);
+    }
+
+
     time_t t;
     srand((unsigned) time(&t));
     int m = 10000;
     int n = 1000;
-    int n_threads = 4;
+    int n_threads = atoi(args[1]);
     Ops ops;
-    ops_init(&ops, m, 0.005, 0.005, 0.99); // Workout the number of operations of each type
+    ops_init(&ops, m, atof(args[2]), atof(args[3]), atof(args[4])); // Workout the number of operations of each type
     Byte *opsList = malloc(sizeof(Byte) * m);
 
     runDummyThreads(n_threads);
     buildOpsList(opsList, &ops, m); // Build a randomly ordered list of operations to be carried out
-
-//    printf("time: %.3f\n",linkedListMutex(opsList, n_threads, m, n));
-//    serialLinkedList(opsList, m, n);
-//    printf("time: %f\n", linkedListRWLock(opsList, n_threads, m, n));
 
     int sample_size = 0;
     int test_samples = 20;
@@ -98,14 +52,12 @@ int main() {
     float *rwlock_time = malloc(sizeof(float) * test_samples);  //=malloc(sizeof(float)*test_samples)
     float *serial_time = malloc(sizeof(float) * test_samples);
 
-
     //all three linked list impletation run
     for (int i = 0; i < test_samples; i++) {
         mutext_time[i] = linkedListMutex(opsList, n_threads, m, n);
         rwlock_time[i] = linkedListRWLock(opsList, n_threads, m, n);
         serial_time[i] = serialLinkedList(opsList, m, n);
     }
-
 
     //finding standard deviation of each linked list implementation
     mutex_std = std(mutext_time, test_samples);
