@@ -67,7 +67,7 @@ int main() {
     int n = 1000;
     int n_threads = 1;
     Ops ops;
-    ops_init(&ops, m, 0.99, 0.005, 0.005); // Workout the number of operations of each type
+    ops_init(&ops, m, 0.005, 0.005, 0.99); // Workout the number of operations of each type
     Byte *opsList = malloc(sizeof(Byte) * m);
 
     buildOpsList(opsList, &ops, m); // Build a randomly ordered list of operations to be carried out
