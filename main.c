@@ -1,15 +1,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <math.h>
 #include <pthread.h>
 #include "node.h"
 #include "ops.h"
 
-int linkedListMutex(Byte *opsList_, int n_threads_, int m_, int n_num_);
+double linkedListMutex(Byte *opsList_, int n_threads_, int m_, int n_num_);
 
 void serialLinkedList(Byte *opsList_, int m_, int n_);
 
-int linkedListRWLock(Byte *opsList_, int n_threads_, int m_, int n_num_);
+double linkedListRWLock(Byte *opsList_, int n_threads_, int m_, int n_num_);
 
 int main() {
 //    Node *head = NULL;
@@ -61,21 +62,30 @@ int main() {
 //        int value;
 //    } Args;
     time_t t;
-    srand((unsigned)time(&t));
-    int m = 10;
-    int n = 20;
-    int n_threads = 2;
+    srand((unsigned) time(&t));
+    int m = 10000;
+    int n = 1000;
+    int n_threads = 1;
     Ops ops;
-    ops_init(&ops, m, 0.8, 0.1, 0.1); // Workout the number of operations of each type
+    ops_init(&ops, m, 0.99, 0.005, 0.005); // Workout the number of operations of each type
     Byte *opsList = malloc(sizeof(Byte) * m);
 
     buildOpsList(opsList, &ops, m); // Build a randomly ordered list of operations to be carried out
 
-//    for (int i = 0; i < m; ++i) {
-//        printf("%d\n", opsList[i]);
-//    }
-    linkedListMutex(opsList, n_threads, m, n);
-    serialLinkedList(opsList, m, n);
-    linkedListRWLock(opsList, n_threads, m, n);
+//    printf("time: %.3f\n",linkedListMutex(opsList, n_threads, m, n));
+//    serialLinkedList(opsList, m, n);
+    printf("time: %f\n", linkedListRWLock(opsList, n_threads, m, n));
     return 0;
+}
+
+float std(float data[], int n) {
+    float mean = 0.0, sum_deviation = 0.0;
+    int i;
+    for (i = 0; i < n; ++i) {
+        mean += data[i];
+    }
+    mean = mean / n;
+    for (i = 0; i < n; ++i)
+        sum_deviation += (data[i] - mean) * (data[i] - mean);
+    return sqrt(sum_deviation / n);
 }
