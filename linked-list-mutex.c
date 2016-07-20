@@ -52,7 +52,7 @@ double linkedListMutex(Byte *opsList_, int n_threads_, int m_, int n_num_) {
 void *threadOperationMutex(void *threadNum) {
     int blockSize = m / thread_count;
     int i = (int) threadNum;
-    printf("Inside thread #%d\n", i);
+//    printf("Inside thread #%d\n", i);
 
     int j;
     for (j = i * blockSize; j < i * blockSize + blockSize || (j == m - 1 && j < m); ++j) {

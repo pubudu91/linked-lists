@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include "node.h"
 #include "ops.h"
 
@@ -7,13 +8,15 @@ Node *head;
 Byte *opsList;
 int m;
 
-void serialLinkedList(Byte *opsList_, int m_, int n_) {
+double serialLinkedList(Byte *opsList_, int m_, int n_) {
+    double start, end, total;
     m = m_;
     opsList = opsList_;
 
     head = NULL;
     populateLinkedList(n_, &head);
 
+    start = clock();
     int val;
     for (int i = 0; i < m; ++i) {
         switch (opsList_[i]) {
@@ -32,8 +35,12 @@ void serialLinkedList(Byte *opsList_, int m_, int n_) {
         }
     }
 
-    print_list(head);
+    end = clock();
+    total = (end - start)/CLOCKS_PER_SEC;
+
+//    print_list(head);
     deleteLinkedList(head);
+    return total;
 }
 
 int Insert(int value, Node **head_pp) {
